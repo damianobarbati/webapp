@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+out/
+build/
+.idea/
+.next/
+lh-report.html
+.DS_Store
+.git/

@@ -1,0 +1,15 @@
+[
+  {
+    "path": "/*",
+    "timings": [
+      {
+        "metric": "interactive",
+        "budget": 3000
+      },
+      {
+        "metric": "first-meaningful-paint",
+        "budget": 1000
+      }
+    ]
+  }
+]

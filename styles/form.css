@@ -1,0 +1,43 @@
+.form {
+  @apply w-full;
+}
+
+.control {
+  @apply w-full w-1/2 mb-0 mb-6;
+}
+
+.label {
+  @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+
+  .required::after {
+    content:" *";
+  }
+}
+
+.input {
+  /* @apply block appearance-none shadow border rounded w-full py-2 px-3 border-gray-200 text-gray-700 leading-tight focus:outline-none; */
+}
+
+.select {
+  /* @apply block appearance-none shadow border rounded w-full py-2 px-3 border-gray-200 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500; */
+}
+
+.input-error {
+  @apply text-red-500 text-xs italic;
+}
+
+.helper {
+  @apply mt-2 text-sm text-gray-500 dark:text-gray-400;
+
+  a {
+    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
+  }
+}
+
+.submit-success {
+  @apply text-green-500 mt-3;
+}
+
+.submit-error {
+  @apply text-red-500 mt-3;
+}
