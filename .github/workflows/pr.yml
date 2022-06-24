@@ -1,0 +1,20 @@
+name: pr
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: build
+        env:
+          NODE_ENV: production
+        run: |
+          DOCKER_BUILDKIT=1 docker build --rm --force-rm --no-cache --build-arg NODE_ENV=production .

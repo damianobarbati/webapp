@@ -1,0 +1,31 @@
+name: tag
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  deploy-production:
+    if: ${{ false }}  # disable for now
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: build and deploy
+        env:
+          ENV: production
+          HOST: my-production-host.com
+          PEM: ${{secrets.PEM_PRODUCTION}}
+          DOCKERHUB_USER: ${{secrets.DOCKERHUB_USER}}
+          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          eval `ssh-agent -s`
+          ssh-add - <<< "$PEM"
+          mkdir ~/.ssh
+          ssh-keyscan -p 22 -H "$HOST" >> ~/.ssh/known_hosts
+
+          docker login docker.io --username "$DOCKERHUB_USER" --password "$DOCKERHUB_TOKEN"
+          sh deploy.sh "$ENV"

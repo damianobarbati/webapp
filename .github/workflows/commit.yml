@@ -1,0 +1,57 @@
+name: commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: build and serve
+        run: |
+          sudo setcap 'cap_net_bind_service=+ep' $(which node) # allow port 80 binding
+          yarn install --production=false
+          yarn lint .
+          yarn build
+          yarn start &
+
+      - name: test
+        run: |
+          timeout 10 bash -c -- "while ! curl http://localhost; do sleep 1; done"
+          npx playwright install --with-deps
+          yarn test:ci
+          yarn test:e2e:ci
+          yarn lighthouse
+
+      - name: build image
+        run: |
+          DOCKER_BUILDKIT=1 docker build --rm --force-rm --no-cache --build-arg NODE_ENV=production .
+
+      - name: deploy image
+        run: echo "Let's deploy this shit"
+#        env:
+#          ENV: staging
+#          HOST: my-staging-host.com
+#          PEM: ${{secrets.PEM_STAGING}}
+#          DOCKERHUB_USER: ${{secrets.DOCKERHUB_USER}}
+#          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+#        run: |
+#          eval `ssh-agent -s`
+#          ssh-add - <<< "$PEM"
+#          mkdir ~/.ssh
+#          ssh-keyscan -p 22 -H "$HOST" >> ~/.ssh/known_hosts
+#
+#          docker login docker.io --username "$DOCKERHUB_USER" --password "$DOCKERHUB_TOKEN"
+#          sh deploy.sh "$ENV"

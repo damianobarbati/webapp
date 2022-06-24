@@ -6,11 +6,32 @@ This is a [Next.js](https://nextjs.org/docs) project:
 
 ## Development
 
+Start development environment:
 ```sh
+nvm install
+yarn install
 yarn dev
 ```
 
-Open <http://localhost:3000>.
+Run unit tests:
+```sh
+yarn test
+```
+
+Run E2E tests:
+```sh
+yarn start
+yarn test:e2e --headed
+```
+
+Run performance audit:
+```sh
+yarn build
+yarn start
+yarn lighthouse
+```
+
+Open <http://localhost>.
 
 ## Deployment
 
@@ -19,4 +40,4 @@ yarn build
 yarn start
 ```
 
-Github actions coming soon! ⚠️
+GitHub actions coming soon! ⚠️

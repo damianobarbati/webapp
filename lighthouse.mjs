@@ -10,8 +10,8 @@ const main = async (url, argv) => {
   // open tab in browser
   const browser = await puppeteer.launch({
     args: [`--remote-debugging-port=${PORT}`],
-    headless: true,
-    slowMo: 0,
+    headless: false,
+    slowMo: 1000,
   });
 
   // login

@@ -1,14 +1,15 @@
-FROM mcr.microsoft.com/playwright:focal
+FROM alpine:3.16
+
+RUN apk add --upgrade nodejs yarn && \
+    rm -rf /var/cache/*
 
 COPY ./ /opt
 WORKDIR /opt
 
 RUN yarn install --production=false && \
-    yarn lint . && \
-    yarn test:ci && \
-    # yarn test:e2e && \
     yarn build && \
+    yarn install --production=true && \
     yarn cache clean && \
-    yarn install --production=true
+    rm -rf /root/cache # playwright cache
 
 CMD yarn start
