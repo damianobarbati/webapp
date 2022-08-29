@@ -4,5 +4,6 @@ out/
 build/
 .idea/
 .next/
+.swc/
 lh-report.html
 .DS_Store
