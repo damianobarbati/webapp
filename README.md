@@ -20,7 +20,7 @@ yarn test
 
 Run E2E tests:
 ```sh
-yarn start
+yarn build
 yarn test:e2e --headed
 ```
 
